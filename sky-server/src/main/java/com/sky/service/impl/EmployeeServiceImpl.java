@@ -78,11 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        设置密码
 employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
 //设置创建时间和跟新时间
-employee.setCreateTime(LocalDateTime.now());
-employee.setUpdateTime(LocalDateTime.now());
-//设置创建人和更新人
-employee.setCreateUser(BaseContext.getCurrentId());
-employee.setUpdateUser(BaseContext.getCurrentId());
+//employee.setCreateTime(LocalDateTime.now());
+//employee.setUpdateTime(LocalDateTime.now());
+////设置创建人和更新人
+//employee.setCreateUser(BaseContext.getCurrentId());
+//employee.setUpdateUser(BaseContext.getCurrentId());
 employeeMapper.save(employee);
     }
 
@@ -95,16 +95,32 @@ employeeMapper.save(employee);
         PageResult pageResult =new PageResult(total,page);
         return pageResult;
     }
-
+//启用和禁用员工
     @Override
     public void startOrStop(Integer status, Long id) {
         Employee employee = Employee.builder()
                 .id(id)
                 .status(status)
-                .updateTime(LocalDateTime.now())
-                .updateUser(BaseContext.getCurrentId())
+//                .updateTime(LocalDateTime.now())
+//                .updateUser(BaseContext.getCurrentId())
                 .build();
         employeeMapper.update(employee);
+    }
+//根据ID查询员工
+    @Override
+    public Employee queryById(Long id) {
+        Employee employee = employeeMapper.queryById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+//编辑员工
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+    Employee employee =new Employee();
+    BeanUtils.copyProperties(employeeDTO,employee);
+//    employee.setUpdateUser(BaseContext.getCurrentId());
+//    employee.setUpdateTime(LocalDateTime.now());
+    employeeMapper.update(employee);
     }
 
 

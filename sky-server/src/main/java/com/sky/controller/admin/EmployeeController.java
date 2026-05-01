@@ -95,6 +95,17 @@ public class EmployeeController {
         employeeService.startOrStop(status,id);
         return Result.success();
  }
-
+ @GetMapping("/{id}")
+ @ApiOperation("根据id查询员工")
+public Result<Employee> queryById(@PathVariable  Long id){
+     Employee employee =  employeeService.queryById(id);
+     return Result.success(employee);
+}
+@PutMapping()
+@ApiOperation("编辑员工信息")
+public Result update(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.update(employeeDTO);
+        return Result.success();
+}
 
 }
